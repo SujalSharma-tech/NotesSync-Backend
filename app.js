@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { dbConnection } from "./Database/dbConnection.js";
-// import { errorMiddleware } from "./middlewares/error.js";
+import { errorMiddleware } from "./middlewares/error.js";
 import userRouter from "./Routes/userRouter.js";
 import fileUpload from "express-fileupload";
 import noteRouter from "./Routes/noteRouter.js";
@@ -21,7 +21,7 @@ const app = express();
 app.use(
   cors({
     origin: ["https://noti-fyy.netlify.app"],
-    methods: ["GET", "PUT", "DELETE", "POST"],
+    methods: ["GET", "PUT", "DELETE", "POST", "PATCH"],
     credentials: true,
   })
 );
@@ -59,5 +59,5 @@ app.use("/api/v1/folder", folderRouter);
 
 dbConnection();
 
-// app.use(errorMiddleware);
+app.use(errorMiddleware);
 export default app;
