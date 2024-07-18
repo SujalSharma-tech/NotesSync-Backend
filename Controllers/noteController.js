@@ -1,5 +1,5 @@
 import { catchAsyncErrors } from "../middlewares/catchAsyncErrors.js";
-import ErrorHandler from "../Middlewares/error.js";
+import ErrorHandler from "../middlewares/error.js";
 import { Folder } from "../Models/folderSchema.js";
 import { Notes } from "../Models/noteSchema.js";
 import cloudinary from "cloudinary";
