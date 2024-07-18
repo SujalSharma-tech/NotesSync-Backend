@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "jest",
-    "start": "node server.js && ls dist"
+    "start": "node server.js"
   },
   "author": "sujal",
   "license": "ISC",
