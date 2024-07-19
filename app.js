@@ -20,7 +20,7 @@ const app = express();
 // );
 app.use(
   cors({
-    origin: ["https://noti-fyy.netlify.app"],
+    origin: ["http://localhost:1234"],
     methods: ["GET", "PUT", "DELETE", "POST", "PATCH"],
     credentials: true,
   })
