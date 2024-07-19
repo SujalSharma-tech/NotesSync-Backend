@@ -6,7 +6,7 @@ export const sendToken = (user, statusCode, message, res) => {
     // ),
     httpOnly: true,
     secure: true,
-    sameSite: "strict",
+    sameSite: "none",
     partitioned: true,
     maxAge: 900000,
   };
