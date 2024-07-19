@@ -8,7 +8,7 @@ export const sendToken = (user, statusCode, message, res) => {
     secure: true,
     sameSite: "None",
     partitioned: true,
-    maxAge: Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 1000,
+    maxAge: 900000,
   };
 
   res.status(statusCode).cookie("token", token, options).json({
