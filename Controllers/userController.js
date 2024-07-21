@@ -90,3 +90,9 @@ export const getMyProfile = catchAsyncErrors((req, res, next) => {
     user,
   });
 });
+
+export const preventInactivity = () => {
+  res.status(200).json({
+    success: true,
+  });
+};
