@@ -24,16 +24,6 @@ const userSchema = new mongoose.Schema({
     maxLength: [32, "Password must not exceed 32 Characters"],
     select: false,
   },
-  user_icon: {
-    public_id: {
-      type: String,
-      required: true,
-    },
-    url: {
-      type: String,
-      required: true,
-    },
-  },
   createdAt: {
     type: Date,
     default: Date.now,

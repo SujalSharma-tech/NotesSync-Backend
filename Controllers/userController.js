@@ -5,21 +5,21 @@ import { sendToken } from "../utils/jwtToken.js";
 import cloudinary from "cloudinary";
 
 export const register = catchAsyncErrors(async (req, res, next) => {
-  if (!req.files || Object.keys(req.files).length == 0) {
-    return next(new ErrorHandler("Please Upload a profile Picture!", 400));
-  }
-  const { avatar } = req.files;
-  const allowedFormats = ["image/jpeg", "image/jpg", "image/webp", "image/png"];
-  if (!allowedFormats.includes(avatar.mimetype)) {
-    return next(
-      new ErrorHandler(
-        "Upload picture only in [.jpg, .png, .webp] formats",
-        400
-      )
-    );
-  }
+  // if (!req.files || Object.keys(req.files).length == 0) {
+  //   return next(new ErrorHandler("Please Upload a profile Picture!", 400));
+  // }
+  // const { avatar } = req.files;
+  // const allowedFormats = ["image/jpeg", "image/jpg", "image/webp", "image/png"];
+  // if (!allowedFormats.includes(avatar.mimetype)) {
+  //   return next(
+  //     new ErrorHandler(
+  //       "Upload picture only in [.jpg, .png, .webp] formats",
+  //       400
+  //     )
+  //   );
+  // }
   const { name, email, password } = req.body;
-  if (!name || !email || !password || !avatar) {
+  if (!name || !email || !password) {
     return next(new ErrorHandler("Please Provide Full details", 400));
   }
 
@@ -27,23 +27,23 @@ export const register = catchAsyncErrors(async (req, res, next) => {
   if (user) {
     return next(new ErrorHandler("User already exists!", 400));
   }
-  const cloudinaryResp = await cloudinary.uploader.upload(avatar.tempFilePath);
-  if (!cloudinaryResp || cloudinaryResp.error) {
-    console.error(
-      "Cloudinary Error",
-      cloudinaryResp.error || "Unknown Cloudinary error"
-    );
-  }
-  console.log(cloudinaryResp);
+  // const cloudinaryResp = await cloudinary.uploader.upload(avatar.tempFilePath);
+  // if (!cloudinaryResp || cloudinaryResp.error) {
+  //   console.error(
+  //     "Cloudinary Error",
+  //     cloudinaryResp.error || "Unknown Cloudinary error"
+  //   );
+  // }
+  // console.log(cloudinaryResp);
   user = await User.create({
     name,
     email,
     password,
-    user_icon: {
-      public_id: cloudinaryResp.public_id,
-      url: cloudinaryResp.secure_url,
-    },
   });
+  //   user_icon: {
+  //   public_id: cloudinaryResp.public_id,
+  //   url: cloudinaryResp.secure_url,
+  // },
   sendToken(user, 200, "User Successfully Registered", res);
 });
 
