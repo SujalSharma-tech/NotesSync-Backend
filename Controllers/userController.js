@@ -91,8 +91,8 @@ export const getMyProfile = catchAsyncErrors((req, res, next) => {
   });
 });
 
-export const preventInactivity = () => {
+export const preventInactivity = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     success: true,
   });
-};
+});
