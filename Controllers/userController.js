@@ -48,7 +48,6 @@ export const register = catchAsyncErrors(async (req, res, next) => {
 });
 
 export const login = catchAsyncErrors(async (req, res, next) => {
-  console.log("yes");
   const { email, password } = req.body;
   if (!email || !password) {
     return next(new ErrorHandler("Provide Full Details!", 400));

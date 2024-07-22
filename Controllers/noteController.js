@@ -42,6 +42,26 @@ export const DeleteNote = catchAsyncErrors(async (req, res, next) => {
     message: "Note deleted!",
   });
 });
+export const DeleteAll = catchAsyncErrors(async (req, res, next) => {
+  const { id } = req.body;
+  // const note = await Notes.findById(id);
+  // if (!note) {
+  //   return next(new ErrorHandler("Note not found", 400));
+  // }
+  // await note.deleteOne();
+  id.map(async (noteid) => {
+    try {
+      await Notes.findByIdAndDelete(noteid);
+    } catch (err) {
+      console.log(err);
+      return next(new ErrorHandler("Something went wrong", 400));
+    }
+  });
+  res.status(200).json({
+    success: true,
+    message: "Note deleted!",
+  });
+});
 
 export const GetAllNotes = catchAsyncErrors(async (req, res, next) => {
   const notes = await Notes.find().sort({ createdAt: -1 });

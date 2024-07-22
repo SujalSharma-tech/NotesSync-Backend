@@ -10,6 +10,7 @@ import {
   addToFolder,
   updatestatus,
   restoreNote,
+  DeleteAll,
 } from "../Controllers/noteController.js";
 import { isAuthenticated } from "../middlewares/auth.js";
 
@@ -23,5 +24,6 @@ router.get("/getsinglenote/:id", getSingleNote);
 router.put("/updatenote/:id", isAuthenticated, updateNote);
 router.patch("/updatestatus/:id", isAuthenticated, updatestatus);
 router.patch("/:id/restore", isAuthenticated, restoreNote);
+router.delete("/deleteall", isAuthenticated, DeleteAll);
 
 export default router;
