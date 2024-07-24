@@ -11,6 +11,9 @@ import {
   updatestatus,
   restoreNote,
   DeleteAll,
+  searchUser,
+  shareNote,
+  sharedWithMe,
 } from "../Controllers/noteController.js";
 import { isAuthenticated } from "../middlewares/auth.js";
 
@@ -25,5 +28,8 @@ router.put("/updatenote/:id", isAuthenticated, updateNote);
 router.patch("/updatestatus/:id", isAuthenticated, updatestatus);
 router.patch("/:id/restore", isAuthenticated, restoreNote);
 router.delete("/deleteall", isAuthenticated, DeleteAll);
+router.get("/searchuser", isAuthenticated, searchUser);
+router.post("/sharenote", isAuthenticated, shareNote);
+router.get("/shared-with-me", isAuthenticated, sharedWithMe);
 
 export default router;

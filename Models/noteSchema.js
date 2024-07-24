@@ -24,10 +24,19 @@ const noteSchema = new mongoose.Schema({
     default: Date.now,
   },
   folder: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.ObjectId,
     ref: "Folder",
     default: null,
   },
+  owner: {
+    type: String,
+  },
+  sharedWith: [
+    {
+      userId: { type: mongoose.Schema.ObjectId, ref: "User" },
+      email: { type: String },
+    },
+  ],
   createdBy: {
     type: mongoose.Schema.ObjectId,
     ref: "User",

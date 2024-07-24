@@ -3,13 +3,14 @@ import ErrorHandler from "../middlewares/error.js";
 import { Folder } from "../Models/folderSchema.js";
 import { Notes } from "../Models/noteSchema.js";
 import cloudinary from "cloudinary";
+import { User } from "../Models/userSchema.js";
 
 export const addNote = catchAsyncErrors(async (req, res, next) => {
-  const { title, content } = req.body;
+  const { title, content, owner } = req.body;
   const createdBy = req.user._id;
   const username = req.user.name;
 
-  if (!title || !content) {
+  if (!title || !content || !owner) {
     return next(
       new ErrorHandler("Title and content are required fields!", 400)
     );
@@ -20,6 +21,7 @@ export const addNote = catchAsyncErrors(async (req, res, next) => {
     content,
     createdBy,
     username,
+    owner,
   };
 
   const note = await Notes.create(noteData);
@@ -197,4 +199,64 @@ export const addToFolder = catchAsyncErrors(async (req, res, next) => {
     message: "Note added to folder successfully",
     folder,
   });
+});
+
+export const searchUser = catchAsyncErrors(async (req, res, next) => {
+  const { email } = req.query;
+  const user = await User.findOne({ email });
+  if (user) {
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } else {
+    res.status(400).json({
+      success: false,
+      message: "User not found",
+    });
+  }
+});
+
+export const shareNote = catchAsyncErrors(async (req, res, next) => {
+  const { noteId, userId, email, isShared, removeUser } = req.body;
+  let note = await Notes.findById(noteId);
+  if (note) {
+    if (removeUser) {
+      note = await Notes.findByIdAndUpdate(
+        noteId,
+        { $pull: { sharedWith: { userId: userId } }, isShared: isShared },
+        { new: true, useFindAndModify: false }
+      ).lean();
+    } else {
+      note = await Notes.findByIdAndUpdate(
+        noteId,
+        {
+          $push: { sharedWith: { userId: userId, email: email } },
+          isShared: isShared,
+        },
+        { new: true, useFindAndModify: false }
+      ).lean();
+    }
+    note = JSON.parse(JSON.stringify(note));
+    res.status(200).json({ success: true, note });
+  } else {
+    res.status(400).json({ success: false, message: "Note not found" });
+  }
+});
+
+export const sharedWithMe = catchAsyncErrors(async (req, res, next) => {
+  const email = req.user.email;
+
+  try {
+    const notes = await Notes.find({ "sharedWith.email": email }).lean();
+    if (notes.length > 0) {
+      return res.status(200).json({ success: true, notes });
+    } else {
+      return res
+        .status(400)
+        .json({ success: false, message: "No notes found" });
+    }
+  } catch (err) {
+    return res.status(400).json({ success: false, message: "No notes found" });
+  }
 });
