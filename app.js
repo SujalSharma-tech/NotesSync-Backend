@@ -20,13 +20,13 @@ const app = express();
 // );
 app.use(
   cors({
-    origin: ["https://noti-fyy.netlify.app"],
+    origin: ["https://notessync.netlify.app"],
     methods: ["GET", "PUT", "DELETE", "POST", "PATCH"],
     credentials: true,
   })
 );
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://noti-fyy.netlify.app");
+  res.header("Access-Control-Allow-Origin", "https://notessync.netlify.app");
   res.header(
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE, OPTIONS,PATCH"
