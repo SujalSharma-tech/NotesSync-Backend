@@ -9,7 +9,7 @@ import fileUpload from "express-fileupload";
 import noteRouter from "./Routes/noteRouter.js";
 import folderRouter from "./Routes/folderRouter.js";
 
-dotenv.config({ path: "./config/config.env" });
+dotenv.config();
 
 const app = express();
 // app.use(
